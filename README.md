@@ -5,8 +5,7 @@ Designed with a clean, responsive UI and easy setup for quick productivity.
 Steps to Run
 python -m venv myenv
 
-Windows: myenv\Scripts\activate
-Mac/Linux: source myenv/bin/activate
+source myenv/bin/activate
 
 Copy the downloaded project files and paste them next to the myenv folder
 
