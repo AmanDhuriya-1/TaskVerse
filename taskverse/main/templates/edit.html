@@ -1,0 +1,38 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="add-task-wrapper">
+    <div class="add-task-container">
+        <header class="add-task-header">
+            <h1>Edit Task</h1>
+        </header>
+        <form method="POST" class="add-task-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="task_title">Task Title</label>
+                <input type="text" id="task_title" name="task_title" value="{{ task.task_title }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="desc">Description</label>
+                <textarea id="desc" name="desc">{{ task.desc }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="due_date">Due Date</label>
+                <input type="date" id="due_date" name="due_date" 
+                       value="{{ task.due_date|date:'Y-m-d' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="tags">Tags</label>
+                <input type="text" id="tags" name="tags" value="{{ task.tags }}">
+            </div>
+
+            <div class="form-actions">
+                <a href="{% url 'task' %}" class="cancel-btn">Cancel</a>
+                <button type="submit" class="create-btn">Update Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

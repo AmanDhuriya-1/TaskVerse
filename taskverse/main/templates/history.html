@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container">
+    <main class="main-content">
+        <header style="display: flex; align-items: center; gap: 15px;">
+            <button class="back-icon" onclick="window.location.href='{% url 'task' %}'">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <h1>Task History</h1>
+        </header>
+
+        <ul class="task-list">
+            {% if logs %}
+                {% for log in logs %}
+                <li class="history-item">
+                    <div class="history-info">
+                        <strong>{{ log.task_title }}</strong>
+                        <p>{{ log.action }} on {{ log.timestamp|date:"M d, Y H:i" }}</p>
+                    </div>
+                    <div class="history-actions">
+                 
+                        <form method="POST" action="{% url 'restore_task' log.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-restore">
+                                <i class="fa-solid fa-rotate-left"></i> Restore
+                            </button>
+                        </form>
+                 
+                        <form method="POST" action="{% url 'delete_log' log.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-delete-history">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li style="text-align: center; color: #aaa;">No history available.</li>
+            {% endif %}
+        </ul>
+    </main>
+</div>
+
+<footer class="footer" style="margin-top: 30px; text-align: center; padding: 15px; color: #aaa; border-top: 1px solid #333;">
+    <p>© 2025 TaskVerse. Built with ❤️ for productivity.</p>
+</footer>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="add-task-wrapper">
+    <div class="add-task-container">
+        <header class="add-task-header">
+            <h1>New Task</h1>
+        </header>
+        <form method="POST" class="add-task-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="task_title">Task Title</label>
+                <input type="text" id="task_title" name="task_title" placeholder="Enter task title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="desc">Description (Optional)</label>
+                <textarea id="desc" name="desc" placeholder="Add a detailed description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="due_date">Due Date (Optional)</label>
+                <input type="date" id="due_date" name="due_date">
+            </div>
+
+            <div class="form-group">
+                <label for="tags">Tags (Optional)</label>
+                <input type="text" id="tags" name="tags" placeholder="Add tags (e.g., Work, Urgent)">
+            </div>
+
+            <div class="form-actions">
+                <a href="{% url 'task' %}" class="cancel-btn">Cancel</a>
+                <button type="submit" class="create-btn">Create Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

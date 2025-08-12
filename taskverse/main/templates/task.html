@@ -1,0 +1,84 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container">
+    <aside class="sidebar">
+        <h2>TaskVerse</h2>
+        <ul>
+            <li class="{% if filter == 'all' %}active{% endif %}" onclick="window.location.href='{% url 'task' %}?filter=all'">
+                <span>☰</span> Tasks
+            </li>
+            <li onclick="window.location.href='{% url 'history' %}'">
+                <span>⟳</span> History
+            </li>
+        </ul>
+        <button class="new-task-btn" onclick="window.location.href='{% url 'add' %}'">New Task</button>
+
+        <!-- Logout Button -->
+        <form action="{% url 'logout' %}" method="post" style="margin-top: 20px;">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn" style="width: 100%; padding: 10px; background: #ff4d4d; border: none; color: white; border-radius: 5px; cursor: pointer;">
+                Logout
+            </button>
+        </form>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <h1>My Tasks</h1>
+        </header>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search tasks">
+        </div>
+
+        <div class="filters">
+            <button onclick="window.location.href='?filter=all'" class="{% if filter == 'all' %}active{% endif %}">All</button>
+            <button onclick="window.location.href='?filter=completed'" class="{% if filter == 'completed' %}active{% endif %}">Completed</button>
+            <button onclick="window.location.href='?filter=incomplete'" class="{% if filter == 'incomplete' %}active{% endif %}">Incomplete</button>
+        </div>
+
+        <ul class="task-list">
+            {% if tasks %}
+                {% for task in tasks %}
+                <li style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <!-- Title -->
+                        <strong {% if task.completed %}style="text-decoration: line-through; color: #888;"{% endif %}>
+                            {{ task.task_title|upper }}
+                        </strong>
+
+                        <!-- Always show description -->
+                        <p style="font-size: 0.95em; color: #ccc; margin-top: 5px;">
+                            {{ task.desc|default:"No description provided." }}
+                        </p>
+
+                        <!-- Due Date -->
+                        <p style="font-size: 0.9em; margin-top: 5px; color: {% if task.due_date and task.due_date < today %}#ff4d4d{% else %}#aaa{% endif %};">
+                            <b>Due:</b>
+                            {% if task.due_date %}
+                                {{ task.due_date|date:"M d, Y" }}
+                            {% else %}
+                                No due date
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <a href="{% url 'toggle_complete' task.id %}" class="btn-done">
+                           {% if task.completed %}Undo{% else %}Done{% endif %}
+                        </a>
+                        <a href="{% url 'edit' task.id %}" class="btn-edit">Edit</a>
+                        <a href="{% url 'delete' task.id %}" class="btn-delete">Delete</a>
+                    </div>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li style="text-align: center; color: #aaa;">No tasks yet. Click "New Task" to add one.</li>
+            {% endif %}
+        </ul>
+    </main>
+</div>
+
+<footer class="footer">
+    <p>© 2025 TaskVerse. Built with ❤️ for productivity.</p>
+</footer>
+{% endblock %}
