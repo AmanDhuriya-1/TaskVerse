@@ -1,3 +1,4 @@
+# TaskVerse
 TaskVerse is a simple yet powerful Django-based To-Do manager that helps you stay organized. It allows you to add, edit, and delete tasks while automatically tracking history for every change—so you always know what’s been done. Designed with a clean, responsive UI and easy setup, TaskVerse boosts your productivity right away.
 
 Setup & Run Instructions
